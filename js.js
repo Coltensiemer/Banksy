@@ -63,14 +63,14 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 
 const displayMovements = function(movements) { 
-  // containerMovements.innerHTML = ' '
+  containerMovements.innerHTML = ' '
   movements.forEach(function (mov, i) { 
 
-    const type = mov > 0? "Deposit" : "Withdraw"; 
+    const type = mov > 0? "deposit" : "withdrawal"; 
     const html = 
     `<div class="movements">
         <div class="movements__row">
-          <div class="movements__type movements__type--${type}">2 ${type} </div>
+          <div class="movements__type movements__type--${type}"> ${i +1 } ${type} </div>
           <div class="movements__value">${mov}€</div>
         </div>` 
 
@@ -82,3 +82,53 @@ const displayMovements = function(movements) {
   };
 
 displayMovements(account1.movements); 
+
+
+
+const createUserName = function (accs) { 
+  accs.forEach(function(acc){
+ acc.username = acc.owner.toLowerCase().split(' ').map(e => e[0]).join('');
+}) 
+}; 
+
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+
+const withdrawal = movements.filter( (mov) => mov < 0); 
+
+
+const calcBalance = function(movements) { 
+  const balance = movements.reduce((acc, mov) => acc + mov, 0)
+  labelBalance.textContent = `${balance}€`
+}
+
+console.log(calcBalance(movements))
+
+
+
+
+
+
+const calcDeposit = function(movements) { 
+  const deposit = movements.filter( mov => mov > 0
+  ).reduce((acc, mov) => acc + mov, 0)
+labelSumIn.textContent = `${deposit}€`; 
+
+
+}
+
+console.log(calcDeposit(movements))
+
+
+
+const calcWithDrawal = function(movements) { 
+  const deposit = movements.filter( mov => mov < 0
+  ).reduce((acc, mov) => acc + mov, 0)
+labelSumIn.textContent = `${deposit}€`; 
+
+
+}
+
+console.log(calcWithDrawal(movements))
+
