@@ -91,9 +91,45 @@ const createUserName = function (accs) {
 }) 
 }; 
 
+createUserName(accounts); 
+
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+
+
+
+
+// Event Handler 
+let currentAccount; 
+
+btnLogin.addEventListener('click', (e) => { 
+  e.preventDefault(); 
+
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value ); 
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) { 
+
+    labelWelcome.textContent = `Welcome Back, ${currentAccount.owner.split(' ')[0]}`
+   
+  }
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Summaries of IN/Out/Interest ====
 
 const withdrawal = movements.filter( (mov) => mov < 0); 
 
@@ -104,9 +140,6 @@ const calcBalance = function(movements) {
 }
 
 console.log(calcBalance(movements))
-
-
-
 
 
 
@@ -123,12 +156,19 @@ console.log(calcDeposit(movements))
 
 
 const calcWithDrawal = function(movements) { 
-  const deposit = movements.filter( mov => mov < 0
+  const withdrawal = movements.filter( mov => mov < 0
   ).reduce((acc, mov) => acc + mov, 0)
-labelSumIn.textContent = `${deposit}€`; 
-
-
+labelSumOut.textContent = `${Math.abs(withdrawal)}€`; 
 }
 
-console.log(calcWithDrawal(movements))
+console.log(calcWithDrawal(account1.movements))
+
+
+const calcinterest = function(movements) {
+const interest = movements.filter(e => e > 0).map(deposit=> ( deposit* 1.2)/100).filter((e, i, arr) => i >= 1).reduce((acc,int) => acc + int, 0); 
+labelSumInterest.textContent = interest; 
+} 
+console.log(calcinterest(account1.movements)); 
+// END of summary 
+
 
